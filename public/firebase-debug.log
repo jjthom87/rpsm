@@ -1,0 +1,66 @@
+[debug] ----------------------------------------------------------------------
+[debug] Command:      C:\Program Files\nodejs\node.exe C:\Users\JT\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase init
+[debug] CLI Version:  3.0.7
+[debug] Platform:     win32
+[debug] Node Version: v4.4.7
+[debug] Time:         Thu Sep 15 2016 22:41:08 GMT-0400 (Eastern Daylight Time)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[debug] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase"]
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\JT\desktop\bootcamp\rpsm\public
+
+[debug] Error: EPERM: operation not permitted, rename 'C:\Users\JT\.config\configstore\firebase-tools.json.374185197' -> 'C:\Users\JT\.config\configstore\firebase-tools.json'
+    at Error (native)
+    at Object.fs.renameSync (fs.js:681:18)
+    at Function.writeFileSync [as sync] (C:\Users\JT\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\configstore\node_modules\write-file-atomic\index.js:81:8)
+    at Object.create.all.set (C:\Users\JT\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\configstore\index.js:62:21)
+    at Object.Configstore.set (C:\Users\JT\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\configstore\index.js:93:11)
+    at Request._callback (C:\Users\JT\AppData\Roaming\npm\node_modules\firebase-tools\lib\fetchMOTD.js:51:19)
+    at Request.self.callback (C:\Users\JT\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:187:22)
+    at emitTwo (events.js:87:13)
+    at Request.emit (events.js:172:7)
+    at Request.<anonymous> (C:\Users\JT\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1044:10)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] ----------------------------------------------------------------------
+[debug] Command:      C:\Program Files\nodejs\node.exe C:\Users\JT\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase init
+[debug] CLI Version:  3.0.7
+[debug] Platform:     win32
+[debug] Node Version: v4.4.7
+[debug] Time:         Thu Sep 15 2016 22:41:24 GMT-0400 (Eastern Daylight Time)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[debug] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase"]
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\JT\desktop\bootcamp\rpsm\public
+
+[debug] Error: EPERM: operation not permitted, rename 'C:\Users\JT\.config\configstore\firebase-tools.json.2635245140' -> 'C:\Users\JT\.config\configstore\firebase-tools.json'
+    at Error (native)
+    at Object.fs.renameSync (fs.js:681:18)
+    at Function.writeFileSync [as sync] (C:\Users\JT\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\configstore\node_modules\write-file-atomic\index.js:81:8)
+    at Object.create.all.set (C:\Users\JT\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\configstore\index.js:62:21)
+    at Object.Configstore.set (C:\Users\JT\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\configstore\index.js:93:11)
+    at Request._callback (C:\Users\JT\AppData\Roaming\npm\node_modules\firebase-tools\lib\fetchMOTD.js:51:19)
+    at Request.self.callback (C:\Users\JT\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:187:22)
+    at emitTwo (events.js:87:13)
+    at Request.emit (events.js:172:7)
+    at Request.<anonymous> (C:\Users\JT\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1044:10)
+[error] 
+[error] Error: An unexpected error has occurred.
