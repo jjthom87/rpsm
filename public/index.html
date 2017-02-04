@@ -1,32 +1,40 @@
+<!DOCTYPE html>
 <html>
 <head>
-<title>Motivate Me</title>
-<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
-<script src='https://code.jquery.com/jquery-2.1.3.min.js'></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<title>RPS</title>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script type="text/javascript" src="rps.js"></script>
 </head>
 <body>
-  <div>
-    <h1>Welcome to the Firebase RPS Multiplayer Application!</h1>
-  </div>
-<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
-<script type="text/javascript">
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyD3Vs4_4_Zv59igAXPhqv2EMdFTB9TG0Ak",
-    authDomain: "rpsm-a0098.firebaseapp.com",
-    databaseURL: "https://rpsm-a0098.firebaseio.com",
-    storageBucket: "rpsm-a0098.appspot.com",
-    messagingSenderId: "789669987661"
-  };
-  firebase.initializeApp(config);
-
-</script>
-<style>
-
-
-</style>
-
+	<h1>Welcome to Rocks Paper Scissors. Make sure there's 2 players</h1>
+	<br>
+	<div class = "text-center">
+			<label>Enter Name</label>
+			<input type="text" id="name" />
+			<button id="submitName">submit</button>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+		</div>
+		<div class="col-md-2">
+			<h3>Player One</h3>
+			<div id="playerOne">
+				<div id="playerOneName"></div>
+				<div class="rpsWordsOne"></div>
+			</div>
+		</div>
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-3">
+			<h3>Player Two</h3>
+			<div id="playerTwo">
+				<div id="playerTwoName"></div>
+				<div class="rpsWordsTwo"></div>
+			</div>
+		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
 </body>
 </html>
