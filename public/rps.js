@@ -8,11 +8,12 @@ var Game = function(){
 var playerOne = new Game();
 var playerTwo = new Game();
 var picks = ['Rocks', 'Paper', 'Scissors'];
+var count = 0;
 
-	$('#submitName').on('click', function(e){
+	$('#submitName').on('submit', function(e){
 		e.preventDefault();
 		var name = $('#name').val().trim();
-
+		count += 1;
 		if(!playerOne.name && !playerTwo.name){
 			var playerOneDiv = $('<div id="plOne" data-oneName='+name+'>')
 			var playerOneP = $('<p id="plOneText">');
@@ -34,6 +35,8 @@ var picks = ['Rocks', 'Paper', 'Scissors'];
 			appendGameButtons();
 		}
 	})
+
+	console.log(count)
 
 	function appendGameButtons(){
 
