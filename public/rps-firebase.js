@@ -25,23 +25,24 @@ $(document).ready(function(){
 	var playerTwo = null;
 
 	firebaseRef.set({ appName: 'RPS' });
-	settings.set({ gameOn: 'false' });
-	players.set({ playerOne: 'false', playerTwo: 'false'})
+	settings.set({ gameOn: false });
+	players.set({ playerOne: false, playerTwo: false});
 
 	$('#submitName').on('click', function(e){
 		e.preventDefault();
 		var name = $('#name').val().trim();
 		if (playerOne == null){
-			firstPlayer.child("name").set({ name: name });
-			players.set({ playerOne: 'true', playerTwo: 'false'});
+			firstPlayer.child("info").set({ name: name });
+			players.set({ playerOne: true, playerTwo: false});
 			appendGameButtonsOne();
+			$('.picksOne').prop("disabled", true);
 			$('#name').val('');
 		} else if (playerOne == 1){
-			secondPlayer.child("name").set({ name: name });
+			secondPlayer.child("info").set({ name: name });
 			$('#name').val('');
-			players.set({ playerOne: 'true', playerTwo: 'true'});
+			players.set({ playerOne: true, playerTwo: true});
 			appendGameButtonsTwo();
-			settings.set({ gameOn: 'true' });
+			settings.set({ gameOn: true });
 		}
 	});
 
@@ -76,7 +77,23 @@ $(document).ready(function(){
 	}
 
 	players.on("value", function(snapshot){
-		console.log(snapshot.val())
+		// if(playerOne == 1 && playerTwo == null){
+		// 	console.log("hello")
+		// 	$('.picksOne').prop("disabled", true);
+		// }
+		// if(playerOne == 1 && playerTwo == 1){
+		// 	var one = snapshot.val().playerOne;
+		// 	var two = snapshot.val().playerTwo;	
+
+
+
+
+
+
+		// }
+		// if(one && two){
+
+		// }
 		// currentPlayers = snapshot.numChildren();
 		// playerOneExists = snapshot.child('firstPlayer').exists();
 		// playerTwoExists = snapshot.child('secondPlayer').exists();
@@ -126,13 +143,15 @@ $(document).ready(function(){
 			$('#playerTwoName').append(playerTwoDiv);
 
 			$('#gameStatus').empty();
+			$('.picksOne').prop("disabled", false);
+			$('#submitName').prop("disabled", true);
+			$('#name').prop("disabled", true);
 		}
 	});
 
 	playerPicks.on("value", function(snapshot){
 		game();
 		currentPicks = snapshot.numChildren();
-
 	})
 
 });
