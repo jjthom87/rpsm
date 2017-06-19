@@ -24,6 +24,13 @@ $(document).ready(function(){
 	var playerOne = null;
 	var playerTwo = null;
 
+	var pOneWins;
+	var pOneLosses;
+	var pTwoWins;
+	var pTwoLosses;
+	var ties;
+	var length;
+
 	firebaseRef.set({ appName: 'RPS' });
 	settings.set({ gameOn: false });
 	players.set({ playerOne: false, playerTwo: false});
@@ -32,35 +39,37 @@ $(document).ready(function(){
 		e.preventDefault();
 		var name = $('#name').val().trim();
 		if (playerOne == null){
-			firstPlayer.child("info").set({ name: name });
+			firstPlayer.child("info").set({ name: name, wins: 0, losses: 0, ties: 0, num: 1 });
 			players.set({ playerOne: true, playerTwo: false});
 			appendGameButtonsOne();
+			appendStats("One", pOneWins, pOneLosses, ties);
 			$('.picksOne').prop("disabled", true);
 			$('#name').val('');
-		} else if (playerOne == 1){
-			secondPlayer.child("info").set({ name: name });
+		} else if (playerOne == 5){
+			secondPlayer.child("info").set({ name: name, wins: 0, losses: 0, ties: 0, num: 2 });
 			$('#name').val('');
 			players.set({ playerOne: true, playerTwo: true});
 			appendGameButtonsTwo();
+			appendStats("Two", pTwoWins, pTwoLosses, ties);
 			settings.set({ gameOn: true });
 		}
 	});
 
 	function appendGameButtonsOne(){
-		if (playerOne == 1){
+		if (playerOne == 5){
 			picks.forEach(function(pick){
 				var divOne = $('<div class="wordsDivOne" data-picked='+pick+'>');
-				divOne.append('<button class="picksOne" id='+pick+'OneP" data-pick='+pick+'>'+pick+'</button><br>');
+				divOne.append('<button class="picks picksOne" id="'+pick+'TwoP" data-pick='+pick+'>'+pick+'</button><br>');
 				$('.rpsWordsOne').append(divOne);
 			});
 		}
 	}
 
 	function appendGameButtonsTwo(){
-		if (playerTwo == 1){
+		if (playerTwo == 5){
 			picks.forEach(function(pick){
 				var divOne = $('<div class="wordsDivTwo" data-picked='+pick+'>');
-				divOne.append('<button class="picksTwo" id='+pick+'TwoP" data-pick='+pick+'>'+pick+'</button><br>');
+				divOne.append('<button class="picks picksTwo" id="'+pick+'TwoP" data-pick='+pick+'>'+pick+'</button><br>');
 				$('.rpsWordsTwo').append(divOne);
 			});
 		}
@@ -68,65 +77,37 @@ $(document).ready(function(){
 
 	var game = () => {
 		$(document).on('click', '.picksOne', function(){
-			playerPicks.child("firstPlayer").set({ pick: $(this).data("pick")})
-		})
+			playerPicks.child("firstPlayer").set({ pick: $(this).data("pick")});
+		});
 
 		$(document).on('click', '.picksTwo', function(){
-			playerPicks.child("secondPlayer").set({ pick: $(this).data("pick")})
-		})
+			playerPicks.child("secondPlayer").set({ pick: $(this).data("pick")});
+		});
 	}
 
-	players.on("value", function(snapshot){
-		// if(playerOne == 1 && playerTwo == null){
-		// 	console.log("hello")
-		// 	$('.picksOne').prop("disabled", true);
-		// }
-		// if(playerOne == 1 && playerTwo == 1){
-		// 	var one = snapshot.val().playerOne;
-		// 	var two = snapshot.val().playerTwo;	
-
-
-
-
-
-
-		// }
-		// if(one && two){
-
-		// }
-		// currentPlayers = snapshot.numChildren();
-		// playerOneExists = snapshot.child('firstPlayer').exists();
-		// playerTwoExists = snapshot.child('secondPlayer').exists();
-		// if(currentPlayers == 1){
-		// 	var playerOneDiv = $('<div id="plOne" data-one='+snapshot.val().firstPlayer.name+'>')
-		// 	var playerOneP = $('<p id="plOneText">');
-		// 	playerOneP.text(snapshot.val().firstPlayer.name);
-		// 	playerOneDiv.append(playerOneP).css('font-size', '24px');
-		// 	$('#playerOneName').data()
-		// 	$('#playerOneName').append(playerOneDiv);
-		// }
-		// if(currentPlayers == 2){
-		// 	var playerTwoDiv = $('<div id="plTwo" data-two='+snapshot.val().secondPlayer.name+'>')
-		// 	var playerTwoP = $('<p id="plTwoText">');
-		// 	playerTwoP.text(snapshot.val().secondPlayer.name);
-		// 	playerTwoDiv.append(playerTwoP).css('font-size', '24px');
-		// 	$('#playerTwoName').data(snapshot.val().secondPlayer.name)
-		// 	$('#playerTwoName').append(playerTwoDiv);
-
-		// 	appendGameButtons();
-		// 	$('#submitName').prop("disabled", true);
-		// 	$('#name').prop("disabled", true);
-		// }
-	});
+	var appendStats = (num, wins, losses, tie) => {
+		var div = $('<div id='+num+'Stats>');
+		var winP = $('<p id='+num+'Wins>');
+		var lossP = $('<p id='+num+'Losses>');
+		var tieP = $('<p id='+num+'Ties>');
+		winP.text("Wins: " + wins);
+		lossP.text("Losses: " + losses);
+		tieP.text("Ties: " + tie);
+		div.append(winP).append(lossP).append(tieP);
+		$('#p'+num+'Stats').append(div);
+	}
 
 	firstPlayer.on("child_added", function(snapshot){
 		playerOne = snapshot.numChildren();
-		if(playerOne == 1){
+		pOneWins = snapshot.val().wins;
+		pOneLosses = snapshot.val().losses;
+		ties = snapshot.val().ties;
+		if(playerOne == 5){
 			var playerOneDiv = $('<div id="plOne" data-one='+snapshot.val().name+'>')
 			var playerOneP = $('<p id="plOneText">');
 			playerOneP.text(snapshot.val().name);
 			playerOneDiv.append(playerOneP).css('font-size', '24px');
-			$('#playerOneName').data()
+			$('#playerOneName').data(snapshot.val().name)
 			$('#playerOneName').append(playerOneDiv);
 			$('#gameStatus').text("Waiting on Player Two");
 		}
@@ -134,7 +115,9 @@ $(document).ready(function(){
 
 	secondPlayer.on("child_added", function(snapshot){
 		playerTwo = snapshot.numChildren();
-		if(playerTwo == 1){
+		pTwoWins = snapshot.val().wins;
+		pTwoLosses = snapshot.val().losses;
+		if(playerTwo == 5){
 			var playerTwoDiv = $('<div id="plTwo" data-two='+snapshot.val().name+'>')
 			var playerTwoP = $('<p id="plTwoText">');
 			playerTwoP.text(snapshot.val().name);
@@ -152,6 +135,89 @@ $(document).ready(function(){
 	playerPicks.on("value", function(snapshot){
 		game();
 		currentPicks = snapshot.numChildren();
-	})
+		if(currentPicks == 2){
+			var onePick = snapshot.val().firstPlayer.pick;
+			var twoPick = snapshot.val().secondPlayer.pick;
+			if(onePick === 'Rocks' && twoPick === 'Scissors'){
+				pOneWins++;
+				pTwoLosses++;
+				secondPlayer.child("info").child("losses").set(pTwoLosses);
+				firstPlayer.child("info").child("wins").set(pOneWins);
+				$('#OneWins').text("Wins: " + pOneWins);
+				$('#TwoLosses').text("Losses: " + pTwoLosses);
+				playerPicks.child("firstPlayer").set({});
+				playerPicks.child("secondPlayer").set({});
+			} else if (onePick === 'Rocks' && twoPick === 'Paper'){
+				pTwoWins++;
+				pOneLosses++;
+				secondPlayer.child("info").child("wins").set(pTwoWins);
+				firstPlayer.child("info").child("losses").set(pOneLosses);
+				$('#TwoWins').text("Wins: " + pTwoWins);
+				$('#OneLosses').text("Losses: " + pOneLosses);
+				playerPicks.child("firstPlayer").set({});
+				playerPicks.child("secondPlayer").set({});
+			} else if (onePick === 'Rocks' && twoPick === 'Rocks'){
+				ties++;
+				firstPlayer.child("info").child("ties").set(ties);
+				secondPlayer.child("info").child("ties").set(ties);
+				$('#OneTies').text("Ties: " + ties);
+				$('#TwoTies').text("Ties: " + ties);
+				playerPicks.child("firstPlayer").set({});
+				playerPicks.child("secondPlayer").set({});
+			} else if (onePick === 'Paper' && twoPick === 'Paper'){
+				ties++;
+				firstPlayer.child("info").child("ties").set(ties);
+				secondPlayer.child("info").child("ties").set(ties);
+				$('#OneTies').text("Ties: " + ties);
+				$('#TwoTies').text("Ties: " + ties);
+				playerPicks.child("firstPlayer").set({});
+				playerPicks.child("secondPlayer").set({});
+			} else if (onePick === 'Paper' && twoPick === 'Scissors'){
+				pTwoWins++;
+				pOneLosses++;
+				secondPlayer.child("info").child("wins").set(pTwoWins);
+				firstPlayer.child("info").child("losses").set(pOneLosses);
+				$('#TwoWins').text("Wins: " + pTwoWins);
+				$('#OneLosses').text("Losses: " + pOneLosses);
+				playerPicks.child("firstPlayer").set({});
+				playerPicks.child("secondPlayer").set({});
+			} else if (onePick === 'Paper' && twoPick === 'Rocks'){
+				pOneWins++;
+				pTwoLosses++;
+				firstPlayer.child("info").child("wins").set(pOneWins);
+				secondPlayer.child("info").child("losses").set(pTwoLosses);
+				$('#OneWins').text("Wins: " + pOneWins);
+				$('#TwoLosses').text("Losses: " + pTwoLosses);
+				playerPicks.child("firstPlayer").set({});
+				playerPicks.child("secondPlayer").set({});
+			} else if (onePick === 'Scissors' && twoPick === 'Paper'){
+				pOneWins++;
+				pTwoLosses++;
+				firstPlayer.child("info").child("wins").set(pOneWins);
+				secondPlayer.child("info").child("losses").set(pTwoLosses);
+				$('#OneWins').text("Wins: " + pOneWins);
+				$('#TwoLosses').text("Losses: " + pTwoLosses);
+				playerPicks.child("firstPlayer").set({});
+				playerPicks.child("secondPlayer").set({});
+			} else if (onePick === 'Scissors' && twoPick === 'Rocks'){
+				pTwoWins++;
+				pOneLosses++;
+				secondPlayer.child("info").child("wins").set(pTwoWins);
+				firstPlayer.child("info").child("losses").set(pOneLosses);
+				$('#TwoWins').text("Wins: " + pTwoWins);
+				$('#OneLosses').text("Losses: " + pOneLosses);
+				playerPicks.child("firstPlayer").set({});
+				playerPicks.child("secondPlayer").set({});
+			} else if (onePick === 'Scissors' && twoPick === 'Scissors'){
+				ties++;
+				firstPlayer.child("info").child("ties").set(ties);
+				secondPlayer.child("info").child("ties").set(ties);
+				$('#OneTies').text("Ties: " + ties);
+				$('#TwoTies').text("Ties: " + ties);
+				playerPicks.child("firstPlayer").set({});
+				playerPicks.child("secondPlayer").set({});
+			}
+		}
+	});
 
 });
