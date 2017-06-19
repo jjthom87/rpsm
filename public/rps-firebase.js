@@ -24,12 +24,7 @@ $(document).ready(function(){
 	var playerOne = null;
 	var playerTwo = null;
 
-	var pOneWins;
-	var pOneLosses;
-	var pTwoWins;
-	var pTwoLosses;
-	var ties;
-	var length;
+	var pOneWins, pOneLosses, pTwoWins, pTwoLosses, ties;
 
 	firebaseRef.set({ appName: 'RPS' });
 	settings.set({ gameOn: false });
@@ -41,7 +36,7 @@ $(document).ready(function(){
 		if (playerOne == null){
 			firstPlayer.child("info").set({ name: name, wins: 0, losses: 0, ties: 0, num: 1 });
 			players.set({ playerOne: true, playerTwo: false});
-			appendGameButtonsOne();
+			appendGameButtons("One", playerOne);
 			appendStats("One", pOneWins, pOneLosses, ties);
 			$('.picksOne').prop("disabled", true);
 			$('#name').val('');
@@ -49,31 +44,21 @@ $(document).ready(function(){
 			secondPlayer.child("info").set({ name: name, wins: 0, losses: 0, ties: 0, num: 2 });
 			$('#name').val('');
 			players.set({ playerOne: true, playerTwo: true});
-			appendGameButtonsTwo();
+			appendGameButtons("Two", playerTwo);
 			appendStats("Two", pTwoWins, pTwoLosses, ties);
 			settings.set({ gameOn: true });
 		}
 	});
 
-	function appendGameButtonsOne(){
-		if (playerOne == 5){
+	var appendGameButtons = (num, player) => {
+		if(player == 5){
 			picks.forEach(function(pick){
-				var divOne = $('<div class="wordsDivOne" data-picked='+pick+'>');
-				divOne.append('<button class="picks picksOne" id="'+pick+'TwoP" data-pick='+pick+'>'+pick+'</button><br>');
-				$('.rpsWordsOne').append(divOne);
+				var div = $('<div class="wordsDiv'+num+'" data-picked='+pick+'>');
+				div.append('<button class="picks'+num+'" id="'+pick+num+'P" data-pick='+pick+'>'+pick+'</button><br>');
+				$('.rpsWords'+num+'').append(div);
 			});
 		}
 	}
-
-	function appendGameButtonsTwo(){
-		if (playerTwo == 5){
-			picks.forEach(function(pick){
-				var divOne = $('<div class="wordsDivTwo" data-picked='+pick+'>');
-				divOne.append('<button class="picks picksTwo" id="'+pick+'TwoP" data-pick='+pick+'>'+pick+'</button><br>');
-				$('.rpsWordsTwo').append(divOne);
-			});
-		}
-	};
 
 	var game = () => {
 		$(document).on('click', '.picksOne', function(){
